@@ -14,4 +14,6 @@ public interface Connector {
 	Message sendRequest(Message message, NodeAddress destination) throws CommunicationException;
 
 	Set<NodeAddress> broadcast(Message message, String... identifierFilter);
+
+	void log(Message message);
 }
