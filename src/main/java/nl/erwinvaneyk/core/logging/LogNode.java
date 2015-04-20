@@ -15,6 +15,7 @@ import nl.erwinvaneyk.core.NodeImpl;
 public class LogNode extends NodeImpl {
 
 	public static final String CONTEXT = "log";
+	public static final String NODETYPE = "LOGGER";
 
 	private Logger logger;
 
@@ -42,5 +43,10 @@ public class LogNode extends NodeImpl {
 		RMISocket socket = new RMISocket(address);
 		// TODO: acknowledge other servers
 		return null;
+	}
+
+	@Override
+	public String getType() {
+		return NODETYPE;
 	}
 }

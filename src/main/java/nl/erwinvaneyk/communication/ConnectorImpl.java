@@ -4,11 +4,13 @@ import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.communication.rmi.RMISocket;
 import nl.erwinvaneyk.core.Node;
 import nl.erwinvaneyk.core.NodeAddress;
+import nl.erwinvaneyk.core.logging.LogNode;
 
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
+// TODO: separate from rmi
 public class ConnectorImpl implements Connector {
     private final Node me;
 
@@ -46,4 +48,9 @@ public class ConnectorImpl implements Connector {
 
         return nodes;
     }
+
+	@Override
+	public void log(Message message) {
+		broadcast(message, LogNode.NODETYPE + "*");
+	}
 }
