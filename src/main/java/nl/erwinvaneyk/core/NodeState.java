@@ -1,7 +1,7 @@
 package nl.erwinvaneyk.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +15,5 @@ public class NodeState implements Serializable {
 
 	@Getter private final String clusterId;
 
-	@Getter private final ArrayList<Node> connectedNodes = new ArrayList<>();
+	@Getter private final HashSet<NodeAddress> connectedNodes = new HashSet<>();
 }
