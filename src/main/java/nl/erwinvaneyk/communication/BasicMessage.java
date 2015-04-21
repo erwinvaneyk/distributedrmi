@@ -34,6 +34,15 @@ public class BasicMessage implements Message {
 	}
 
 	@Override
+	public Serializable getOrThrow(String fieldname) {
+		Serializable val = get(fieldname);
+		if(val == null) {
+			throw new IllegalArgumentException("Missing expected argument '" + fieldname + "' in message '" + this + "'");
+		}
+		return val;
+	}
+
+	@Override
 	public Message put(String fieldName, Serializable val) {
 		contents.put(fieldName, val);
 		return this;

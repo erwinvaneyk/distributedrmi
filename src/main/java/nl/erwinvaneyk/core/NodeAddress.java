@@ -29,4 +29,6 @@ public interface NodeAddress extends Serializable {
 	 * @return the address of the node
 	 */
 	Address getLocation();
+
+	int getId();
 }

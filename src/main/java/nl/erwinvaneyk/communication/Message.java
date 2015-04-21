@@ -20,5 +20,7 @@ public interface Message extends Serializable {
 
 	Serializable get(String fieldName);
 
+	Serializable getOrThrow(String fieldname);
+
 	Message put(String fieldName, Serializable val);
 }
