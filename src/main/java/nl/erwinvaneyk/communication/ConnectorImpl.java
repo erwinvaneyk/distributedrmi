@@ -35,7 +35,7 @@ public class ConnectorImpl implements Connector {
         Set<NodeAddress> nodes = me.getState().getConnectedNodes();
 
         if(regexFilter.length == 1) {
-            nodes = nodes.stream().filter(n -> n.getIdentifier().matches(regexFilter[1])).collect(toSet());
+            nodes = nodes.stream().filter(n -> n.getIdentifier().matches(regexFilter[0])).collect(toSet());
         }
 
         nodes.stream().forEach(address -> {
@@ -51,6 +51,6 @@ public class ConnectorImpl implements Connector {
 
 	@Override
 	public void log(Message message) {
-		broadcast(message, LogNode.NODETYPE + "*");
+		broadcast(message, LogNode.NODE_TYPE);
 	}
 }
