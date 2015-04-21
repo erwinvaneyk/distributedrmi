@@ -36,5 +36,18 @@ public class NodeImplTest {
 		node2.disconnect();
 	}
 
-
+	@Test
+	public void joinClusterOnNonStartingNode() throws CommunicationException {
+		Node node1 = NodeImpl.startCluster(1819, "test-cluster");
+		Node node2 = NodeImpl.connectToCluster(1820, node1.getState().getAddress());
+		Node node3 = NodeImpl.connectToCluster(1821, node2.getState().getAddress());
+		Node node4 = NodeImpl.connectToCluster(1822, node3.getState().getAddress());
+		assertEquals(node4.getState().getClusterId(), "test-cluster");
+		System.out.println(node4.getState());
+		assertEquals(3, node4.getState().getConnectedNodes().size());
+		node1.disconnect();
+		node2.disconnect();
+		node3.disconnect();
+		node4.disconnect();
+	}
 }
