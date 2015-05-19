@@ -31,20 +31,34 @@ public class ConnectorImpl implements Connector {
     }
 
     @Override
-    public Set<NodeAddress> broadcast(Message message, String... contains) {
+    public Set<NodeAddress> broadcast(Message message) {
         Set<NodeAddress> nodes = me.getState().getConnectedNodes();
 
-        if(contains.length == 1) {
-            nodes = nodes.stream().filter(n -> n.getIdentifier().matches("(.*)" + contains[0] + "(.*)")).collect(toSet());
-        }
+        return broadcast(message, nodes);
+    }
 
+    public Set<NodeAddress> broadcast(Message message, String identifierFilter) {
+        Set<NodeAddress> nodes = me.getState().getConnectedNodes()
+                .stream()
+                .filter(n -> n.getIdentifier().matches("(.*)" + identifierFilter + "(.*)")).collect(toSet());
+
+        return broadcast(message, nodes);
+    }
+
+    private Set<NodeAddress> broadcast(Message message, Set<NodeAddress> nodes) {
         nodes.stream().forEach(address -> {
-                try {
-                    sendMessage(message, address);
-                } catch (CommunicationException e) {
-                    e.printStackTrace();
-                }
-            });
+            try {
+                sendMessage(message, address);
+            } catch (CommunicationException e) {
+                e.printStackTrace();
+            }
+        });
+
+        try {
+            sendMessage(message, me.getState().getAddress());
+        } catch (CommunicationException e) {
+            e.printStackTrace();
+        }
 
         return nodes;
     }
