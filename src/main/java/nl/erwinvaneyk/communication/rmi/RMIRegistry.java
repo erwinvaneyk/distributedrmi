@@ -45,7 +45,14 @@ public class RMIRegistry implements Server {
 			registry = LocateRegistry.createRegistry(port);
 		}
 		catch (RemoteException e) {
-			throw new PortAlreadyInUseException("Failed to start RMI-registry (server).", e);
+			try {
+				// Fix race condition, when previous registry is still in shutdown.
+				Thread.sleep(500);
+				return start(port);
+			}
+			catch (InterruptedException e1) {
+				throw new PortAlreadyInUseException("Failed to start RMI-registry (server).", e);
+			}
 		}
 		return this;
 	}
