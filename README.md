@@ -1,7 +1,7 @@
 # distributedrmi
 
 Example:
-```
+```java
 // Setup cluster
 Node node1 = NodeImpl.startCluster(1819, "test-cluster");
 Node node2 = NodeImpl.connectToCluster(1820, node1.getState().getAddress());
