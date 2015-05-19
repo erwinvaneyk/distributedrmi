@@ -4,11 +4,11 @@ import nl.erwinvaneyk.communication.MessageHandler;
 
 public interface Node {
 
-	public NodeState getState();
+	NodeState getState();
 
-	public String getType();
+	String getType();
 
-	public void disconnect();
+	void disconnect();
 
 	MessageHandler getMessageHandler();
 }
