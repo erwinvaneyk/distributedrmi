@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>nl.erwinvaneyk</groupId>
+  <artifactId>distributedrmi</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20150519112948</lastUpdated>
+  </versioning>
+</metadata>
