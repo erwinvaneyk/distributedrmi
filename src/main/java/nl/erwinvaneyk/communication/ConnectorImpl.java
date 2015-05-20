@@ -1,5 +1,6 @@
 package nl.erwinvaneyk.communication;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.communication.rmi.RMISocket;
 import nl.erwinvaneyk.core.Node;
@@ -11,6 +12,7 @@ import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
 // TODO: separate from rmi
+@Slf4j
 public class ConnectorImpl implements Connector {
     private final Node me;
 
@@ -65,6 +67,10 @@ public class ConnectorImpl implements Connector {
 
 	@Override
 	public void log(Message message) {
-		broadcast(message, LogNode.NODE_TYPE);
+		if(me.getState().getConnectedNodes().stream().anyMatch(node -> node.getType().equals(LogNode.NODE_TYPE))) {
+			broadcast(message, LogNode.NODE_TYPE);
+		} else {
+			log.debug("No logger: " + message);
+		}
 	}
 }

@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Optional;
 
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nl.erwinvaneyk.communication.MessageHandler;
 import nl.erwinvaneyk.communication.Server;
 import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
@@ -48,9 +49,9 @@ public class RMIRegistry implements Server {
 			try {
 				// Fix race condition, when previous registry is still in shutdown.
 				Thread.sleep(500);
-				return start(port);
+				registry = LocateRegistry.createRegistry(port);
 			}
-			catch (InterruptedException e1) {
+			catch (InterruptedException | RemoteException e1) {
 				throw new PortAlreadyInUseException("Failed to start RMI-registry (server).", e);
 			}
 		}
