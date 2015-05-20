@@ -12,4 +12,9 @@ public class LogNodeFactory implements NodeFactory {
 	public Node get(NodeAddress nodeAddress, String clusterId) throws CommunicationException {
 		return new LogNode(nodeAddress, new RMIRegistry(), clusterId);
 	}
+
+	@Override
+	public String getNodeType() {
+		return LogNode.NODE_TYPE;
+	}
 }

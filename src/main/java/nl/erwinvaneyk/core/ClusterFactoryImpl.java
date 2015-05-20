@@ -25,11 +25,11 @@ public class ClusterFactoryImpl implements ClusterFactory {
 	public Node connectToCluster(int port, NodeAddress address) throws CommunicationException {
 		// TODO: reserve id
 		// Request ID from a cluster-node
-		Message reserveIdMessage = new BasicMessage(NodeInitHandler.NODE_CONNECT, null).put("type", NodeImpl.NODE_TYPE);
+		Message reserveIdMessage = new BasicMessage(NodeInitHandler.NODE_CONNECT, null).put("type", nodeFactory.getNodeType());
 		RMISocket socket = new RMISocket(address);
 		Message response = socket.sendRequest(reserveIdMessage);
 		// Create node based on response
-		NodeAddress nodeAddress = new NodeAddressImpl(NodeImpl.NODE_TYPE, (Integer) response.getOrThrow("id"), Address.getMyAddress(port));
+		NodeAddress nodeAddress = new NodeAddressImpl(nodeFactory.getNodeType(), (Integer) response.getOrThrow("id"), Address.getMyAddress(port));
 		Node node = nodeFactory.get(nodeAddress, (String) response.getOrThrow("clusterId"));
 		// connect to other nodes
 		node.getState().getConnectedNodes().addAll(

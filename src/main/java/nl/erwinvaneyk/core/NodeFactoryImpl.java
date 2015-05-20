@@ -11,4 +11,9 @@ public class NodeFactoryImpl implements NodeFactory {
 		Server server = new RMIRegistry();
 		return new NodeImpl(nodeAddress, server, clusterId);
 	}
+
+	@Override
+	public String getNodeType() {
+		return NodeImpl.NODE_TYPE;
+	}
 }
