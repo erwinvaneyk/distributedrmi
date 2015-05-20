@@ -37,7 +37,7 @@ public class RMISocket implements Socket {
 			messageHandler.onMessageReceived(message);
 		}
 		catch (RemoteException | NotBoundException e) {
-			throw new CommunicationException("Failed to send asynchronous message: " + message + " to " + nodeAddress, e);
+			throw new CommunicationException("Failed to send asynchronous message: '" + message + "' to " + nodeAddress, e);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class RMISocket implements Socket {
 			return messageHandler.onRequestReceived(message);
 		}
 		catch (RemoteException | NotBoundException e) {
-			throw new CommunicationException("Failed to send synchronous message: " + message + " to " + nodeAddress, e);
+			throw new CommunicationException("Failed to send synchronous message: '" + message + "' to " + nodeAddress, e);
 		}
 	}
 }

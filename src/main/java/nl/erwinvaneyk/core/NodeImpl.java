@@ -19,7 +19,7 @@ import nl.erwinvaneyk.communication.handlers.NodeInitHandler;
 @Data
 public class NodeImpl implements Node {
 
-	private static final String NODE_TYPE = NodeImpl.class.getSimpleName();
+	public static final String NODE_TYPE = NodeImpl.class.getSimpleName();
 
 	private final NodeState state;
 
@@ -42,27 +42,6 @@ public class NodeImpl implements Node {
 		// Setup registry
 		registry.start(address.getLocation().getPort());
 		registry.register(address, messageHandler);
-	}
-
-	public static Node startCluster(int port, String clusterId) throws CommunicationException {
-		NodeAddress nodeAddress = new NodeAddressImpl(NODE_TYPE, 0, Address.getMyAddress(port));
-		Server server = new RMIRegistry();
-		return new NodeImpl(nodeAddress, server, clusterId);
-	}
-
-	public static Node connectToCluster(int port, NodeAddress address) throws CommunicationException {
-		// TODO: reserve id
-		// Request ID from a cluster-node
-		Message reserveIdMessage = new BasicMessage(NodeInitHandler.NODE_CONNECT, null).put("type", NODE_TYPE);
-		RMISocket socket = new RMISocket(address);
-		Message response = socket.sendRequest(reserveIdMessage);
-		// Create node based on response
-		NodeAddress nodeAddress = new NodeAddressImpl(NODE_TYPE, (Integer) response.getOrThrow("id"), Address.getMyAddress(port));
-		Node node = new NodeImpl(nodeAddress, new RMIRegistry(),(String) response.getOrThrow("clusterId"));
-		// connect to other nodes
-		node.getState().getConnectedNodes()
-				.addAll(NodeConnectHandler.discoverNetwork(node.getState().getAddress(), address));
-		return node;
 	}
 
 	@Override
