@@ -28,11 +28,12 @@ Example:
 ```java
 // Setup cluster
 ClusterFactory cf = ClusterFactory.getBasicFactory();
+ClusterFactory lf = ClusterFactory.getLogFactory();
 Node node1 = cf.startCluster(1819, "test-cluster");
 Node node2 = cf.connectToCluster(1820, node1.getState().getAddress());
 
 // Setup logger printing to the terminal
-LogNode logNode1 = LogNode.connectToCluster(1821, node1.getState().getAddress());
+LogNode logNode1 = (LogNode) lf.connectToCluster(1821, node1.getState().getAddress());
 logNode1.setLogger(new PrintLogger());
 
 // Create a Connector; needed for sending messages

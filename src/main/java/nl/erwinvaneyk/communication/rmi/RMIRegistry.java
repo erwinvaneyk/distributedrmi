@@ -3,6 +3,7 @@ package nl.erwinvaneyk.communication.rmi;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,6 +19,7 @@ import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
 import nl.erwinvaneyk.core.Address;
 import nl.erwinvaneyk.core.NodeAddress;
 
+@Slf4j
 @NoArgsConstructor
 public class RMIRegistry implements Server {
 
@@ -25,15 +27,6 @@ public class RMIRegistry implements Server {
 
 	public static RMIRegistry getRemote(Address address) throws RemoteException {
 		return new RMIRegistry(LocateRegistry.getRegistry(address.getIp(), address.getPort()));
-	}
-
-	public static void cleanup(int port) {
-		try {
-			new RMIRegistry(LocateRegistry.getRegistry(String.valueOf(Inet4Address.getLocalHost().getHostAddress()), port)).shutdown();
-		}
-		catch (RemoteException | UnknownHostException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public RMIRegistry(Registry registry) {
@@ -52,7 +45,7 @@ public class RMIRegistry implements Server {
 				registry = LocateRegistry.createRegistry(port);
 			}
 			catch (InterruptedException | RemoteException e1) {
-				throw new PortAlreadyInUseException("Failed to start RMI-registry (server).", e);
+				throw new PortAlreadyInUseException("Failed to start RMI-registry (server) on port: " + port, e);
 			}
 		}
 		return this;
@@ -103,8 +96,10 @@ public class RMIRegistry implements Server {
 			}
 			UnicastRemoteObject.unexportObject(registry, true);
 		}
-		catch (RemoteException e) {
-			e.printStackTrace();
+		catch (ConnectException e1) {
+			log.debug("Could not shutdown registry: " + registry + ", it is already shutdown");
+		} catch (RemoteException e) {
+			log.debug("Could not shutdown port: " + e.getMessage());
 		}
 	}
 }

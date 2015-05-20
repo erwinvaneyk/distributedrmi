@@ -26,7 +26,7 @@ public class LogNodeTest {
 		ClusterFactory clusterFactory = ClusterFactory.getBasicFactory();
 		Node node1 = clusterFactory.startCluster(1819, "test-cluster");
 		Node node2 = clusterFactory.connectToCluster(1820, node1.getState().getAddress());
-		LogNode logNode1 = LogNode.connectToCluster(1821, node1.getState().getAddress());
+		LogNode logNode1 = (LogNode) ClusterFactory.getLogFactory().connectToCluster(1821, node1.getState().getAddress());
 		assertEquals("test-cluster", logNode1.getState().getClusterId());
 		// Use stub logger
 		logNode1.setLogger(message -> lastLogMessage1 = message);
@@ -44,8 +44,8 @@ public class LogNodeTest {
 	public void logToMultipleLogInstances() throws RemoteException {
 		// Setup cluster
 		Node node1 = ClusterFactory.getBasicFactory().startCluster(1819, "test-cluster");
-		LogNode logNode1 = LogNode.connectToCluster(1820, node1.getState().getAddress());
-		LogNode logNode2 = LogNode.connectToCluster(1821, node1.getState().getAddress());
+		LogNode logNode1 = (LogNode) ClusterFactory.getLogFactory().connectToCluster(1820, node1.getState().getAddress());
+		LogNode logNode2 = (LogNode) ClusterFactory.getLogFactory().connectToCluster(1821, node1.getState().getAddress());
 		assertEquals("test-cluster", logNode1.getState().getClusterId());
 		// Use stub logger
 		logNode1.setLogger(message -> lastLogMessage1 = message);
