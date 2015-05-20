@@ -13,6 +13,6 @@ public class CommunicationException extends RemoteException {
 	}
 
 	public CommunicationException(String s) {
-
+		super(s);
 	}
 }
