@@ -3,8 +3,8 @@ package nl.erwinvaneyk.communication;
 import lombok.extern.slf4j.Slf4j;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.communication.rmi.RMISocket;
-import nl.erwinvaneyk.core.Node;
 import nl.erwinvaneyk.core.NodeAddress;
+import nl.erwinvaneyk.core.NodeState;
 import nl.erwinvaneyk.core.logging.LogNode;
 
 import java.util.Set;
@@ -14,9 +14,9 @@ import static java.util.stream.Collectors.toSet;
 // TODO: separate from rmi
 @Slf4j
 public class ConnectorImpl implements Connector {
-    private final Node me;
+    private final NodeState me;
 
-    public ConnectorImpl(Node me) {
+    public ConnectorImpl(NodeState me) {
         this.me = me;
     }
 
@@ -34,13 +34,13 @@ public class ConnectorImpl implements Connector {
 
     @Override
     public Set<NodeAddress> broadcast(Message message) {
-        Set<NodeAddress> nodes = me.getState().getConnectedNodes();
+        Set<NodeAddress> nodes = me.getConnectedNodes();
 
         return broadcast(message, nodes);
     }
 
     public Set<NodeAddress> broadcast(Message message, String identifierFilter) {
-        Set<NodeAddress> nodes = me.getState().getConnectedNodes()
+        Set<NodeAddress> nodes = me.getConnectedNodes()
                 .stream()
                 .filter(n -> n.getIdentifier().matches("(.*)" + identifierFilter + "(.*)")).collect(toSet());
 
@@ -57,7 +57,7 @@ public class ConnectorImpl implements Connector {
         });
 
         try {
-            sendMessage(message, me.getState().getAddress());
+            sendMessage(message, me.getAddress());
         } catch (CommunicationException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class ConnectorImpl implements Connector {
 
 	@Override
 	public void log(Message message) {
-		if(me.getState().getConnectedNodes().stream().anyMatch(node -> node.getType().equals(LogNode.NODE_TYPE))) {
+		if(me.getConnectedNodes().stream().anyMatch(node -> LogNode.NODE_TYPE.equals(node.getType()))) {
 			broadcast(message, LogNode.NODE_TYPE);
 		} else {
 			log.debug("No logger: " + message);

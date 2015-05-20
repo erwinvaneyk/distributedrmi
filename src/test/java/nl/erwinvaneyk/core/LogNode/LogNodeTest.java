@@ -53,7 +53,7 @@ public class LogNodeTest {
 		logNode2.setLogger(message -> lastLogMessage2 = message);
 		// Log and check
 		Message message = new LogMessage("Test message", null);
-		new ConnectorImpl(node1).log(message);
+		new ConnectorImpl(node1.getState()).log(message);
 		assertNotNull(lastLogMessage1);
 		assertNotNull(lastLogMessage2);
 		assertEquals(lastLogMessage2, lastLogMessage1);
