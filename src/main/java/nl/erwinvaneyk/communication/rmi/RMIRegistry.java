@@ -9,11 +9,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Optional;
 
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import nl.erwinvaneyk.communication.MessageHandler;
+import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.Server;
 import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
 import nl.erwinvaneyk.core.Address;
@@ -57,7 +55,7 @@ public class RMIRegistry implements Server {
 	}
 
 	@Override
-	public Server register(NodeAddress nodeAddress, MessageHandler handler) {
+	public Server register(NodeAddress nodeAddress, MessageDistributor handler) {
 		try {
 			registry.bind(nodeAddress.getIdentifier(), handler);
 		}
@@ -79,8 +77,8 @@ public class RMIRegistry implements Server {
 	}
 
 	@Override
-	public MessageHandler get(NodeAddress nodeAddress) throws RemoteException, NotBoundException {
-		return (MessageHandler) registry.lookup(nodeAddress.getIdentifier());
+	public MessageDistributor get(NodeAddress nodeAddress) throws RemoteException, NotBoundException {
+		return (MessageDistributor) registry.lookup(nodeAddress.getIdentifier());
 	}
 
 	@Override

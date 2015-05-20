@@ -9,7 +9,6 @@ import nl.erwinvaneyk.communication.ConnectorImpl;
 import nl.erwinvaneyk.communication.Message;
 import nl.erwinvaneyk.core.ClusterFactory;
 import nl.erwinvaneyk.core.Node;
-import nl.erwinvaneyk.core.NodeImpl;
 import nl.erwinvaneyk.core.logging.LogMessage;
 import nl.erwinvaneyk.core.logging.LogNode;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class LogNodeTest {
 		logNode1.setLogger(message -> lastLogMessage1 = message);
 		// Log and check
 		Message message = new LogMessage("Test message", null);
-		logNode1.getMessageHandler().onMessageReceived(message);
+		logNode1.getMessageDistributor().onMessageReceived(message);
 		assertEquals(message, lastLogMessage1);
 		// Shutdown
 		node1.disconnect();
