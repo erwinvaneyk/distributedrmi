@@ -1,5 +1,6 @@
 package nl.erwinvaneyk.communication.rmi;
 
+import static junit.framework.TestCase.fail;
 import static org.mockito.Mockito.mock;
 
 import nl.erwinvaneyk.communication.MessageHandler;
@@ -42,5 +43,18 @@ public class RMIRegistryTest {
 		new RMIRegistry()
 				.start(1818)
 				.shutdown();
+	}
+
+	@Test
+	public void startingRegistryOnUnavailablePort() throws PortAlreadyInUseException {
+		Server registry = new RMIRegistry().start(1818);
+		try {
+			new RMIRegistry().start(1818);
+			fail();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			registry.shutdown();
+		}
 	}
 }
