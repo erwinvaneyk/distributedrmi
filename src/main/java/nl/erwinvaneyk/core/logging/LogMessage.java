@@ -27,6 +27,6 @@ public class LogMessage extends BasicMessage{
 
 	@Override
 	public String toString() {
-		return getOrigin() + ": " + log;
+		return (getOrigin() != null ? getOrigin() + ": " : "") + log;
 	}
 }

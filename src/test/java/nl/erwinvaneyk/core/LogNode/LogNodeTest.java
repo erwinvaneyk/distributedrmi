@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 
 import nl.erwinvaneyk.communication.ConnectorImpl;
 import nl.erwinvaneyk.communication.Message;
+import nl.erwinvaneyk.core.ClusterFactory;
 import nl.erwinvaneyk.core.Node;
 import nl.erwinvaneyk.core.NodeImpl;
 import nl.erwinvaneyk.core.logging.LogMessage;
@@ -22,8 +23,9 @@ public class LogNodeTest {
 	@Test
 	public void addLogNodeToClusterAndLog() throws RemoteException {
 		// Setup cluster
-		Node node1 = NodeImpl.startCluster(1819, "test-cluster");
-		Node node2 = NodeImpl.connectToCluster(1820, node1.getState().getAddress());
+		ClusterFactory clusterFactory = ClusterFactory.getBasicFactory();
+		Node node1 = clusterFactory.startCluster(1819, "test-cluster");
+		Node node2 = clusterFactory.connectToCluster(1820, node1.getState().getAddress());
 		LogNode logNode1 = LogNode.connectToCluster(1821, node1.getState().getAddress());
 		assertEquals("test-cluster", logNode1.getState().getClusterId());
 		// Use stub logger
@@ -41,7 +43,7 @@ public class LogNodeTest {
 	@Test
 	public void logToMultipleLogInstances() throws RemoteException {
 		// Setup cluster
-		Node node1 = NodeImpl.startCluster(1819, "test-cluster");
+		Node node1 = ClusterFactory.getBasicFactory().startCluster(1819, "test-cluster");
 		LogNode logNode1 = LogNode.connectToCluster(1820, node1.getState().getAddress());
 		LogNode logNode2 = LogNode.connectToCluster(1821, node1.getState().getAddress());
 		assertEquals("test-cluster", logNode1.getState().getClusterId());
@@ -52,6 +54,7 @@ public class LogNodeTest {
 		// Log and check
 		Message message = new LogMessage("Test message", null);
 		new ConnectorImpl(node1).log(message);
+		assertNotNull(lastLogMessage1);
 		assertNotNull(lastLogMessage2);
 		assertEquals(lastLogMessage2, lastLogMessage1);
 		// Shutdown
