@@ -42,12 +42,14 @@ public class ConnectorImpl implements Connector {
     }
 
     public Set<NodeAddress> broadcast(Message message, String identifierFilter) {
-        Set<NodeAddress> nodes = new HashSet<>(me.getConnectedNodes());
-        nodes.add(me.getAddress());
+        String regex = "(.*)" + identifierFilter + "(.*)";
 
-        nodes = nodes.stream()
-                    .filter(n -> n.getIdentifier().matches("(.*)" + identifierFilter + "(.*)"))
+        Set<NodeAddress> nodes = me.getConnectedNodes().stream()
+                    .filter(n -> n.getIdentifier().matches(regex))
                     .collect(toSet());
+
+        if(me.getAddress().getIdentifier().matches(regex))
+            nodes.add(me.getAddress());
 
         return broadcast(message, nodes);
     }
