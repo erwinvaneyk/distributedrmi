@@ -47,7 +47,6 @@ public class LogNodeTest {
 		LogNode logNode1 = LogNode.connectToCluster(1820, node1.getState().getAddress());
 		LogNode logNode2 = LogNode.connectToCluster(1821, node1.getState().getAddress());
 		assertEquals("test-cluster", logNode1.getState().getClusterId());
-		System.out.println(logNode2);
 		// Use stub logger
 		logNode1.setLogger(message -> lastLogMessage1 = message);
 		logNode2.setLogger(message -> lastLogMessage2 = message);
