@@ -7,6 +7,7 @@ import nl.erwinvaneyk.core.NodeAddress;
 import nl.erwinvaneyk.core.NodeState;
 import nl.erwinvaneyk.core.logging.LogNode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -34,15 +35,21 @@ public class ConnectorImpl implements Connector {
 
     @Override
     public Set<NodeAddress> broadcast(Message message) {
-        Set<NodeAddress> nodes = me.getConnectedNodes();
+        Set<NodeAddress> nodes = new HashSet<>(me.getConnectedNodes());
+        nodes.add(me.getAddress());
 
         return broadcast(message, nodes);
     }
 
     public Set<NodeAddress> broadcast(Message message, String identifierFilter) {
-        Set<NodeAddress> nodes = me.getConnectedNodes()
-                .stream()
-                .filter(n -> n.getIdentifier().matches("(.*)" + identifierFilter + "(.*)")).collect(toSet());
+        String regex = "(.*)" + identifierFilter + "(.*)";
+
+        Set<NodeAddress> nodes = me.getConnectedNodes().stream()
+                    .filter(n -> n.getIdentifier().matches(regex))
+                    .collect(toSet());
+
+        if(me.getAddress().getIdentifier().matches(regex))
+            nodes.add(me.getAddress());
 
         return broadcast(message, nodes);
     }
@@ -55,12 +62,6 @@ public class ConnectorImpl implements Connector {
                 e.printStackTrace();
             }
         });
-
-        try {
-            sendMessage(message, me.getAddress());
-        } catch (CommunicationException e) {
-            e.printStackTrace();
-        }
 
         return nodes;
     }
