@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import nl.erwinvaneyk.communication.Message;
-import nl.erwinvaneyk.communication.MessageHandler;
+import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.MessageReceivedHandler;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.core.NodeAddress;
 
 // TODO: RMI stuff needs to be split from the messageHandler interface
-public class NoBufferMessageHandler extends UnicastRemoteObject implements MessageHandler {
+public class NoBufferMessageHandler extends UnicastRemoteObject implements MessageDistributor {
 
 	private final Map<String, MessageReceivedHandler> handlers = new ConcurrentHashMap<>();
 
@@ -40,13 +40,13 @@ public class NoBufferMessageHandler extends UnicastRemoteObject implements Messa
 	}
 
 	@Override
-	public MessageHandler bind(String key, MessageReceivedHandler handler) throws RemoteException {
+	public MessageDistributor bind(String key, MessageReceivedHandler handler) throws RemoteException {
 		handlers.put(key, handler);
 		return this;
 	}
 
 	@Override
-	public MessageHandler bind(MessageReceivedHandler handler) throws RemoteException {
+	public MessageDistributor bind(MessageReceivedHandler handler) throws RemoteException {
 		handlers.put(handler.getContext(), handler);
 		return this;
 	}

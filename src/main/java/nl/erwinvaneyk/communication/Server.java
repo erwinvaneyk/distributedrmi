@@ -16,11 +16,11 @@ public interface Server {
 
 	Server start();
 
-	Server register(NodeAddress nodeAddress, MessageHandler handler);
+	Server register(NodeAddress nodeAddress, MessageDistributor handler);
 
 	Server unregister(NodeAddress nodeAddress);
 
-	MessageHandler get(NodeAddress nodeAddress) throws RemoteException, NotBoundException;
+	MessageDistributor get(NodeAddress nodeAddress) throws RemoteException, NotBoundException;
 
 	void shutdown();
 }

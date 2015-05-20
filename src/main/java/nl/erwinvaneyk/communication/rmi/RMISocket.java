@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 import lombok.NonNull;
 import nl.erwinvaneyk.communication.Message;
-import nl.erwinvaneyk.communication.MessageHandler;
+import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.Socket;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.core.NodeAddress;
@@ -33,8 +33,8 @@ public class RMISocket implements Socket {
 	@Override
 	public void sendMessage(@NonNull Message message) throws CommunicationException {
 		try {
-			MessageHandler messageHandler = connection.get(nodeAddress);
-			messageHandler.onMessageReceived(message);
+			MessageDistributor messageDistributor = connection.get(nodeAddress);
+			messageDistributor.onMessageReceived(message);
 		}
 		catch (RemoteException | NotBoundException e) {
 			throw new CommunicationException("Failed to send asynchronous message: '" + message + "' to " + nodeAddress, e);
@@ -44,8 +44,8 @@ public class RMISocket implements Socket {
 	@Override
 	public Message sendRequest(@NonNull Message message) throws CommunicationException {
 		try {
-			MessageHandler messageHandler = connection.get(nodeAddress);
-			return messageHandler.onRequestReceived(message);
+			MessageDistributor messageDistributor = connection.get(nodeAddress);
+			return messageDistributor.onRequestReceived(message);
 		}
 		catch (RemoteException | NotBoundException e) {
 			throw new CommunicationException("Failed to send synchronous message: '" + message + "' to " + nodeAddress, e);

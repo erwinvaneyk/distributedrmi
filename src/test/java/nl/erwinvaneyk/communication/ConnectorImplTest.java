@@ -24,7 +24,7 @@ public class ConnectorImplTest {
     public void connectorBroadcastSingleProcessNoFilter() throws RemoteException {
         // Setup cluster
         Node node1 = ClusterFactory.getBasicFactory().startCluster(1819, "test-cluster");
-        node1.getMessageHandler().bind(new MessageReceivedHandler() {
+        node1.getMessageDistributor().bind(new MessageReceivedHandler() {
             @Override
             public Message onMessage(Message message) throws CommunicationException {
                 ConnectorImplTest.this.receivedOwnMessage = true;
@@ -53,7 +53,7 @@ public class ConnectorImplTest {
     public void connectorBroadcastSingleProcessWithFilter() throws RemoteException {
         // Setup cluster
         Node node1 = ClusterFactory.getBasicFactory().startCluster(1820, "test-cluster");
-        node1.getMessageHandler().bind(new MessageReceivedHandler() {
+        node1.getMessageDistributor().bind(new MessageReceivedHandler() {
             @Override
             public Message onMessage(Message message) throws CommunicationException {
                 ConnectorImplTest.this.receivedOwnMessage = true;

@@ -3,7 +3,7 @@ package nl.erwinvaneyk.communication.rmi;
 import static junit.framework.TestCase.fail;
 import static org.mockito.Mockito.mock;
 
-import nl.erwinvaneyk.communication.MessageHandler;
+import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.Server;
 import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
 import nl.erwinvaneyk.core.NodeAddress;
@@ -14,23 +14,23 @@ public class RMIRegistryTest {
 
 	@Test
 	public void registerHandler() throws PortAlreadyInUseException {
-		MessageHandler messageHandlerStub = mock(MessageHandler.class);
+		MessageDistributor messageDistributorStub = mock(MessageDistributor.class);
 		Server reg = new RMIRegistry()
 				.start(1818)
-				.register(new NodeAddressImpl("test", 0, null), messageHandlerStub);
+				.register(new NodeAddressImpl("test", 0, null), messageDistributorStub);
 		// todo: test
 		reg.shutdown();
 	}
 
 	@Test
 	public void unregisterHandler() throws PortAlreadyInUseException {
-		MessageHandler messageHandlerStub = mock(MessageHandler.class);
+		MessageDistributor messageDistributorStub = mock(MessageDistributor.class);
 		NodeAddress mockAddress = new NodeAddressImpl("test", 0, null);
 		Server reg = new RMIRegistry()
 				.start(1818)
-				.register(mockAddress, messageHandlerStub)
+				.register(mockAddress, messageDistributorStub)
 				.unregister(mockAddress)
-				.register(mockAddress, messageHandlerStub);
+				.register(mockAddress, messageDistributorStub);
 		reg.shutdown();
 	}
 

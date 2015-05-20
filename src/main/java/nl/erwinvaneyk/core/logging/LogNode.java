@@ -13,7 +13,6 @@ import nl.erwinvaneyk.communication.handlers.NodeInitHandler;
 import nl.erwinvaneyk.communication.rmi.RMIRegistry;
 import nl.erwinvaneyk.communication.rmi.RMISocket;
 import nl.erwinvaneyk.core.Address;
-import nl.erwinvaneyk.core.Node;
 import nl.erwinvaneyk.core.NodeAddress;
 import nl.erwinvaneyk.core.NodeAddressImpl;
 import nl.erwinvaneyk.core.NodeImpl;
@@ -31,7 +30,7 @@ public class LogNode extends NodeImpl {
 		super(address, registry, clusterId);
 		// Bind logger
 		try {
-			this.getMessageHandler().bind(new MessageReceivedHandler() {
+			this.getMessageDistributor().bind(new MessageReceivedHandler() {
 				@Override
 				public Message onMessage(Message message) throws CommunicationException {
 					logger.log(message);
