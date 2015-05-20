@@ -1,6 +1,7 @@
 package nl.erwinvaneyk.core;
 
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
+import nl.erwinvaneyk.core.logging.LogNodeFactory;
 
 public interface ClusterFactory {
 
@@ -10,5 +11,9 @@ public interface ClusterFactory {
 
 	public static ClusterFactory getBasicFactory() {
 		return new ClusterFactoryImpl(new NodeFactoryImpl());
+	}
+
+	public static ClusterFactory getLogFactory() {
+		return new ClusterFactoryImpl(new LogNodeFactory());
 	}
 }

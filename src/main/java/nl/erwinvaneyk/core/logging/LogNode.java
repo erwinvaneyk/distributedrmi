@@ -49,22 +49,6 @@ public class LogNode extends NodeImpl {
 		}
 	}
 
-	public static LogNode connectToCluster(int port, NodeAddress address) throws CommunicationException {
-		// TODO: reserve id
-		// Request ID from a cluster-node
-		Message reserveIdMessage = new BasicMessage(NodeInitHandler.NODE_CONNECT, null).put("type", NODE_TYPE);
-		RMISocket socket = new RMISocket(address);
-		Message response = socket.sendRequest(reserveIdMessage);
-		// Create node based on response
-		NodeAddress nodeAddress = new NodeAddressImpl(NODE_TYPE, (Integer) response.getOrThrow("id"), Address.getMyAddress(
-				port));
-		LogNode node = new LogNode(nodeAddress, new RMIRegistry(),(String) response.getOrThrow("clusterId"));
-		// connect to other nodes
-		node.getState().getConnectedNodes()
-				.addAll(NodeConnectHandler.discoverNetwork(node.getState().getAddress(), address));
-		return node;
-	}
-
 	@Override
 	public String getType() {
 		return NODE_TYPE;
