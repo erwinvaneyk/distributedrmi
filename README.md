@@ -1,5 +1,8 @@
 # distributedrmi
 
+![status](https://travis-ci.org/erwinvaneyk/distributedrmi.svg)
+
+
 Example:
 ```java
 // Setup cluster
