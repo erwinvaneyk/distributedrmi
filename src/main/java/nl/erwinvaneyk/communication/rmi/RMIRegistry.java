@@ -11,6 +11,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.Server;
 import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
