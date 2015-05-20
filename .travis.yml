@@ -4,5 +4,5 @@ jdk:
 notifications:
   email: false
 branches:
-  except:
-    - mvn-repo
+  only:
+    - master
