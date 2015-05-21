@@ -20,7 +20,7 @@ To use it in your project add the following to your `pom.xml`:
 <dependency>
   <groupId>nl.erwinvaneyk</groupId>
   <artifactId>distributedrmi</artifactId>
-  <version>1.0.2</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
