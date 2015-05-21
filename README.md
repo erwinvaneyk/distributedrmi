@@ -1,6 +1,6 @@
 # distributedrmi
 
-![status](https://travis-ci.org/erwinvaneyk/distributedrmi.svg)
+[![Build Status](https://travis-ci.org/erwinvaneyk/distributedrmi.svg)](https://travis-ci.org/erwinvaneyk/distributedrmi)
 
 Installation:
 To use it in your project add the following to your `pom.xml`:
