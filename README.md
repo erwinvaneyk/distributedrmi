@@ -49,7 +49,7 @@ logNode1.disconnect();
 Note: In this case the nodes are still running from a common thread.
 
 ### InfluxDB
-This project provides advanced performance-logging capabilities. By default InfluxDB is included. To enable it, make sure that a InfluxDB instance is running on your machine.
+This project provides advanced performance-logging capabilities. By default InfluxDB is included. To enable it, make sure that an InfluxDB-instance is running on your machine.
 
 The easiest way to do this is to use the preconfigured docker-image
 ```bash
