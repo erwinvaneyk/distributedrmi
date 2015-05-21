@@ -4,16 +4,11 @@ import java.rmi.RemoteException;
 
 import lombok.Getter;
 import lombok.ToString;
-import nl.erwinvaneyk.communication.BasicMessageFactory;
-import nl.erwinvaneyk.communication.Connector;
-import nl.erwinvaneyk.communication.ConnectorImpl;
-import nl.erwinvaneyk.communication.MessageDistributor;
-import nl.erwinvaneyk.communication.MessageFactory;
-import nl.erwinvaneyk.communication.Server;
+import nl.erwinvaneyk.communication.*;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.communication.handlers.NodeConnectHandler;
 import nl.erwinvaneyk.communication.handlers.NodeInitHandler;
-import nl.erwinvaneyk.communication.rmi.NoBufferMessageHandler;
+import nl.erwinvaneyk.communication.rmi.NoBufferMessageDistributor;
 
 @ToString
 public class NodeImpl implements Node {
@@ -37,7 +32,7 @@ public class NodeImpl implements Node {
 		this.connector = new ConnectorImpl(this.getState());
 		this.messageFactory = new BasicMessageFactory(address);
 		try {
-			messageDistributor = new NoBufferMessageHandler(address);
+			messageDistributor = new NoBufferMessageDistributor();
 			messageDistributor.bind(new NodeInitHandler(connector, state));
 			messageDistributor.bind(new NodeConnectHandler(state));
 		}
