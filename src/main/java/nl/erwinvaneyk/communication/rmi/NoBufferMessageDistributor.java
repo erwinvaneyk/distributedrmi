@@ -9,18 +9,15 @@ import nl.erwinvaneyk.communication.Message;
 import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.MessageReceivedHandler;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
-import nl.erwinvaneyk.core.NodeAddress;
+import nl.erwinvaneyk.core.logging.RawLogger;
 
 // TODO: RMI stuff needs to be split from the messageHandler interface
-public class NoBufferMessageHandler extends UnicastRemoteObject implements MessageDistributor {
+public class NoBufferMessageDistributor extends UnicastRemoteObject implements MessageDistributor {
 
 	private final Map<String, MessageReceivedHandler> handlers = new ConcurrentHashMap<>();
 
-	private final NodeAddress address;
-
-	public NoBufferMessageHandler(NodeAddress address) throws RemoteException {
+	public NoBufferMessageDistributor() throws RemoteException {
 		super();
-		this.address = address;
 	}
 
 	@Override
@@ -31,6 +28,7 @@ public class NoBufferMessageHandler extends UnicastRemoteObject implements Messa
 	@Override
 	public Message onRequestReceived(Message message) throws RemoteException {
 		message.setTimestampReceived();
+		RawLogger.getDefault().log("message", message);
 		MessageReceivedHandler handler = getHandlerFor(message);
 		if(handler != null) {
 			return handler.onMessage(message);
