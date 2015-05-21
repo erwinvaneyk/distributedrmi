@@ -31,9 +31,9 @@ public class NodeImpl implements Node {
 
 	private final Server server;
 
-	protected NodeImpl(NodeAddress address, Server registry, String clusterId) throws CommunicationException {
+	protected NodeImpl(NodeAddress address, Server server, String clusterId) throws CommunicationException {
 		this.state = new NodeState(address, clusterId);
-		this.server = registry;
+		this.server = server;
 		this.connector = new ConnectorImpl(this.getState());
 		this.messageFactory = new BasicMessageFactory(address);
 		try {
@@ -45,8 +45,8 @@ public class NodeImpl implements Node {
 			throw new CommunicationException("Failed to launch MessageHandler", e);
 		}
 		// Setup server
-		registry.start(address.getLocation().getPort());
-		registry.register(address, messageDistributor);
+		server.start(address.getLocation().getPort());
+		server.register(address, messageDistributor);
 	}
 
 	@Override
