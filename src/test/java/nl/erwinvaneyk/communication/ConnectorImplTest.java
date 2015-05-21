@@ -1,17 +1,16 @@
 package nl.erwinvaneyk.communication;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.rmi.RemoteException;
+
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.core.ClusterFactory;
 import nl.erwinvaneyk.core.Node;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.rmi.RemoteException;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-// TODO: needs cluster-joins to be able to test
 public class ConnectorImplTest {
     private boolean receivedOwnMessage = false;
 

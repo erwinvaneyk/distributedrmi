@@ -3,18 +3,11 @@ package nl.erwinvaneyk.core.logging;
 import java.rmi.RemoteException;
 
 import lombok.Setter;
-import nl.erwinvaneyk.communication.BasicMessage;
 import nl.erwinvaneyk.communication.Message;
 import nl.erwinvaneyk.communication.MessageReceivedHandler;
 import nl.erwinvaneyk.communication.Server;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
-import nl.erwinvaneyk.communication.handlers.NodeConnectHandler;
-import nl.erwinvaneyk.communication.handlers.NodeInitHandler;
-import nl.erwinvaneyk.communication.rmi.RMIRegistry;
-import nl.erwinvaneyk.communication.rmi.RMISocket;
-import nl.erwinvaneyk.core.Address;
 import nl.erwinvaneyk.core.NodeAddress;
-import nl.erwinvaneyk.core.NodeAddressImpl;
 import nl.erwinvaneyk.core.NodeImpl;
 
 public class LogNode extends NodeImpl {

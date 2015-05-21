@@ -2,6 +2,7 @@ package nl.erwinvaneyk.core;
 
 import nl.erwinvaneyk.communication.Connector;
 import nl.erwinvaneyk.communication.MessageDistributor;
+import nl.erwinvaneyk.communication.MessageFactory;
 
 public interface Node {
 
@@ -14,4 +15,6 @@ public interface Node {
 	Connector getConnector();
 
 	MessageDistributor getMessageDistributor();
+
+	MessageFactory getMessageFactory();
 }
