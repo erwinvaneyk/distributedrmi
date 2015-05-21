@@ -2,6 +2,7 @@ package nl.erwinvaneyk.communication;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import nl.erwinvaneyk.core.NodeAddress;
 
@@ -11,13 +12,15 @@ public interface Message extends Serializable {
 
 	NodeAddress getOrigin();
 
-	Date getTimestampSend();
+	long getTimestampSend();
 
-	Date getTimestampReceived();
+	long getTimestampReceived();
 
 	void setTimestampReceived();
 
 	Serializable get(String fieldName);
+
+	Map<String, Serializable> getFields();
 
 	Serializable getOrThrow(String fieldname);
 

@@ -3,6 +3,7 @@ package nl.erwinvaneyk.communication;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,23 +15,28 @@ public class BasicMessage implements Message {
 
 	private final String context;
 	private final NodeAddress origin;
-	private final Date timestampSend;
-	private Date timestampReceived;
+	private final long timestampSend;
+	private long timestampReceived;
 	private final HashMap<String, Serializable> contents = new HashMap<>();
 
 	public BasicMessage(String context, NodeAddress origin) {
 		this.context = context;
 		this.origin = origin;
-		this.timestampSend = new Date();
+		this.timestampSend = new Date().getTime();
 	}
 
 	public void setTimestampReceived() {
-		timestampReceived = new Date();
+		timestampReceived = new Date().getTime();
 	}
 
 	@Override
 	public Serializable get(String fieldName) {
 		return contents.get(fieldName);
+	}
+
+	@Override
+	public Map<String, Serializable> getFields() {
+		return contents;
 	}
 
 	@Override
