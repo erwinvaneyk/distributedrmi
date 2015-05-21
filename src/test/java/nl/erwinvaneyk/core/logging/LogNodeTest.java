@@ -1,4 +1,4 @@
-package nl.erwinvaneyk.core.LogNode;
+package nl.erwinvaneyk.core.logging;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -9,8 +9,6 @@ import nl.erwinvaneyk.communication.ConnectorImpl;
 import nl.erwinvaneyk.communication.Message;
 import nl.erwinvaneyk.core.ClusterFactory;
 import nl.erwinvaneyk.core.Node;
-import nl.erwinvaneyk.core.logging.LogMessage;
-import nl.erwinvaneyk.core.logging.LogNode;
 import org.junit.Test;
 
 public class LogNodeTest {

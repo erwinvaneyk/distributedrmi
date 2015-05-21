@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/erwinvaneyk/distributedrmi.svg)](https://travis-ci.org/erwinvaneyk/distributedrmi)
 
-Installation:
+### Installation:
 To use it in your project add the following to your `pom.xml`:
 
 ```xml
@@ -24,7 +24,7 @@ To use it in your project add the following to your `pom.xml`:
 </dependency>
 ```
 
-Example:
+### Example:
 ```java
 // Setup cluster
 ClusterFactory cf = ClusterFactory.getBasicFactory();
@@ -47,3 +47,16 @@ node2.disconnect();
 logNode1.disconnect();
 ```
 Note: In this case the nodes are still running from a common thread.
+
+### InfluxDB
+This project provides advanced performance-logging capabilities. By default InfluxDB is included. To enable it, make sure that a InfluxDB instance is running on your machine.
+
+The easiest way to do this is to use the preconfigured docker-image
+```bash
+# run influxdb
+docker run -d -p 8083:8083 -p 8086:8086 --expose 8090 --expose 8099 --name="influxdb-rmi" tutum/influxdb
+
+# run grafana
+docker run -d -p 3000:3000 --name="grafana-rmi" grafana/grafana
+
+```
