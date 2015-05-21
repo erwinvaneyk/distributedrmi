@@ -8,4 +8,9 @@ public class PrintLogger implements Logger {
 	public void log(Message message) {
 		System.out.println(message.toString());
 	}
+
+	@Override
+	public boolean isAvailable() {
+		return true;
+	}
 }
