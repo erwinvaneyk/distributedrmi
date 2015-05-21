@@ -1,7 +1,5 @@
 package nl.erwinvaneyk.communication.rmi;
 
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
@@ -11,14 +9,12 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nl.erwinvaneyk.communication.MessageDistributor;
 import nl.erwinvaneyk.communication.Server;
 import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
 import nl.erwinvaneyk.core.Address;
 import nl.erwinvaneyk.core.NodeAddress;
 
-@Slf4j
 @NoArgsConstructor
 public class RMIRegistry implements Server {
 
@@ -95,10 +91,9 @@ public class RMIRegistry implements Server {
 			}
 			UnicastRemoteObject.unexportObject(registry, true);
 		}
-		catch (ConnectException e1) {
-			log.debug("Could not shutdown registry: " + registry + ", it is already shutdown");
+		catch (ConnectException ignored) {
 		} catch (RemoteException e) {
-			log.debug("Could not shutdown port: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }
