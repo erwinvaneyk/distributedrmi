@@ -1,15 +1,12 @@
 package nl.erwinvaneyk.core;
 
-import static org.junit.Assert.*;
-
-import java.rmi.RemoteException;
+import static org.junit.Assert.assertEquals;
 
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
-import nl.erwinvaneyk.communication.exceptions.PortAlreadyInUseException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class NodeImplTest {
+public class ClusterFactoryImplTest {
 
 	private static ClusterFactory clusterFactory;
 

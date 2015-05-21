@@ -1,16 +1,16 @@
 package nl.erwinvaneyk.communication;
 
+import static java.util.stream.Collectors.toSet;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import nl.erwinvaneyk.communication.exceptions.CommunicationException;
 import nl.erwinvaneyk.communication.rmi.RMISocket;
 import nl.erwinvaneyk.core.NodeAddress;
 import nl.erwinvaneyk.core.NodeState;
 import nl.erwinvaneyk.core.logging.LogNode;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
 
 // TODO: separate from rmi
 @Slf4j
