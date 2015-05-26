@@ -68,7 +68,11 @@ public class InfluxLogger implements RawLogger {
 		builder.values(args.values().toArray(new Object[args.size()]));
 		Serie serie = builder.build();
 		log.debug("query to influxDB: {}", serie);
-		influxDB.write(database, TIME_UNIT, serie);
+		try {
+			influxDB.write(database, TIME_UNIT, serie);
+		} catch(RuntimeException e) {
+			log.error("Failed to write serie to InfluxDb of {} with arguments {} (reason: {})", subject, args, e.getMessage());
+		}
 	}
 
 	@Override
