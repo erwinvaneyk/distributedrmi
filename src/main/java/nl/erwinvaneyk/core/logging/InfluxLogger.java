@@ -1,5 +1,6 @@
 package nl.erwinvaneyk.core.logging;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,8 @@ public class InfluxLogger implements RawLogger {
 	public static final String FIELD_SUBJECT = "subject";
 	public static final String FIELD_TIMESTAMP_SEND = "timestamp_send";
 	public static final String FIELD_TIMESTAMP_RECEIVED = "timestamp_received";
+	public static final String FIELD_CONTEXT = "context";
+	public static final String FIELD_DELIVERY_DURATION = "delivery_duration";
 
 	private static InfluxLogger influxLogger;
 
@@ -75,9 +78,14 @@ public class InfluxLogger implements RawLogger {
 
 	@Override
 	public void log(String subject, Message message) {
-		Map<String, Object> args = new HashMap<>(message.getFields());
+		Map<String, Object> args = new HashMap<>();
+		for(Map.Entry<String, Serializable> contentArg : message.getFields().entrySet()) {
+			args.put(contentArg.getKey(), contentArg.getValue().toString());
+		}
 		args.put(FIELD_ORIGIN, message.getOrigin() != null ? message.getOrigin().toString() : "");
 		args.put(FIELD_SUBJECT, subject);
+		args.put(FIELD_CONTEXT, message.getContext());
+		args.put(FIELD_DELIVERY_DURATION, message.getTimestampReceived() - message.getTimestampSend());
 		args.put(FIELD_TIMESTAMP_RECEIVED, message.getTimestampReceived());
 		args.put(FIELD_TIMESTAMP_SEND, message.getTimestampSend());
 		log(subject, args);
