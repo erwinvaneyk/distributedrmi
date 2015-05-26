@@ -48,7 +48,6 @@ public class InfluxLogger implements RawLogger {
 	public static InfluxLogger getInstance() {
 		if(influxLogger == null) {
 			influxLogger =  new InfluxLogger(new Address("localhost",8086), "root", "root", InfluxLogger.DEFAULT_DATABASE);
-			influxLogger.deleteDatabase();
 			influxLogger.createDatabaseIfAbsent(influxLogger.database);
 		}
 		return influxLogger;
