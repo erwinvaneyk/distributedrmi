@@ -41,12 +41,14 @@ public class ConnectorImpl implements Connector {
         return broadcast(message, nodes);
     }
 
+	@Override
     public Set<NodeAddress> broadcast(Message message, String identifierFilter) {
         String regex = "(.*)" + identifierFilter + "(.*)";
 
         Set<NodeAddress> nodes = me.getConnectedNodes().stream()
                     .filter(n -> n.getIdentifier().matches(regex))
                     .collect(toSet());
+		log.debug("Sending message {} to filtered nodes: {} by using filter {}", message, nodes, identifierFilter);
 
         if(me.getAddress().getIdentifier().matches(regex))
             nodes.add(me.getAddress());
