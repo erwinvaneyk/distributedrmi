@@ -14,4 +14,6 @@ public interface Connector {
 	Set<NodeAddress> broadcast(Message message);
 
 	void log(Message message);
+
+	public Set<NodeAddress> broadcast(Message message, String identifierFilter);
 }
