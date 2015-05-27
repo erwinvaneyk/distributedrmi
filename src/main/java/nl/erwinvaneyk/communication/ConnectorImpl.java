@@ -48,10 +48,12 @@ public class ConnectorImpl implements Connector {
         Set<NodeAddress> nodes = me.getConnectedNodes().stream()
                     .filter(n -> n.getIdentifier().matches(regex))
                     .collect(toSet());
-		log.debug("Sending message {} to filtered nodes: {} by using filter {}", message, nodes, identifierFilter);
 
-        if(me.getAddress().getIdentifier().matches(regex))
+        if(me.getAddress().getIdentifier().matches(regex)) {
             nodes.add(me.getAddress());
+        }
+
+        log.debug("Sending message {} to filtered nodes: {} by using filter {}", message, nodes, identifierFilter);
 
         return broadcast(message, nodes);
     }
